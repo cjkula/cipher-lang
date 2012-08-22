@@ -1,0 +1,84 @@
+### SOME THOUGHTS. NOT SURE ABOUT ALL OF THIS, IN PARTICULAR THE SINGLE VS. DOUBLE COLON AND ORDER OF OPS WITH COMMA QUESTION ###
+
+
+# single-colon: first-dimension (or less) assignment
+
+a: 1
+(a, b) : 1, 2
+a: 1, b: 2
+user: next_record
+
+# while the single colon is capable of assigning rows, 
+# it's order of operations is higher than the comma
+# hence the need for parens above.
+
+# double-colon: second-dimension (or less) assignment
+
+a, b :: 1, 2
+# works because the operator, not finding a 2nd-order (table) list, accepts the lower-order row list
+# in contrast...
+
+a, b ::
+	1
+	2
+# a & b will be assigned the results from only the first row, so a=1, b=null
+
+a, b :	
+	1, 2
+# SYNTAX ERROR
+
+##########################
+
+row ->
+	1, 2
+col ->
+	3
+	4
+table ->
+	1, 2
+	3, 4
+cube ->
+	::::
+		:::
+			1, 2
+			3, 4
+		:::
+			5, 6
+			7, 8
+
+	
+## IDEA ##
+# in assignment, the highest dimension of the left hand is matched with the highest dimension of the right hand
+
+a : row				# a= List::Row(1, 2)
+a :: row			# same result
+a ::: row			# casts as table. a= List::Table(List::Row(1, 2))
+a, b :: row			# a=1, b=2
+a, b, c :: row		# a=1, b=2, c=null
+a : col				# a=List::Table(3, 4)
+a :: col			# same result
+a, b :: col			# a=1, b=2
+a ::: col			# a=List::Table(3, 4)
+a, b ::: col		# a=3, b=4	## content of single column here are objects, not lists
+a, b, c ::: col		# a=3, b=4, c=null
+a, b :::: col		# dimension freeze. a=List::Table(3, 4), b=null
+a : table			# a= List::Table(List::Row(1,2),List::Row(3,4))
+a :: table			# same
+a ::: table			# same
+a :::: table		# dimensional shift. a=List::Cube(List::Table(1,2),List::Table(3,4))
+a, b : table		# a unchanged; b=List::Table(List::Row(1,2),List::Row(3,4))
+a, b :: table		# a=List::Row(1,2), b=List::Row(3,4)
+a, b ::: table		# same
+a, b :::: table 	# dimension shift. a=List::Table(1,2), b=List::Table(3,4)
+a,b; c,d ::: table 	# a=1, b=2, c=3, d=4 
+a : cube			# a=List::Cube(...)
+a ::::: cube		# dimensional shift. a=List::Dim4(...)
+a, b :: cube		# a=List::Table(List::Row(1,2),List::Row(3,4)), b=List::Table(List::Row(5,6),List::Row(7,8))
+a, b ::: cube		# same
+a, b :::: cube		# dimension freeze. a=List::Cube(...), b=null
+
+
+#### (Not sure about the casting/dim shift thing. Perhaps it is assigned at unity,
+#### and then resolved down to whatever level is appropriate, i.e. negative dimensionality.
+#### In which case pushing data to a higher dimension wouldn't make sense. Related to the 
+#### idea that a List cannot have just one element. empty=null, 1 is an Object, many is a List.)

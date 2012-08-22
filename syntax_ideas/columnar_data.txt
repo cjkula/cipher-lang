@@ -1,0 +1,13 @@
+
+add_to_database   id,   name,   age  ::
+				| 1   | Tom   | 3    |
+				| 2   | Bob   | 32   |
+
+#= [ true, true ]
+	
+	
+name:name :: add_to_database    | id  | name  | age  |
+								| 1   | Tom   | 3    |
+								| 2   | Bob   | 32   |
+				
+#= [ name:'Tom', name:'Bob' ]

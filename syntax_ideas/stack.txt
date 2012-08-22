@@ -1,0 +1,48 @@
+# non-named assignments take values from the TAIL of the contextual stack
+
+funky ->
+	x: 1
+	y: 2
+	3
+	
+funky		#= Context x:1,y:2,stack:[1,2,3]
+a: funky	#= Context (Context x:1,y:2,stack:[1,2,3]), 3
+
+###
+
+x, y -> 1, 2, 3, 4, 5
+x.value		#= 4
+y.value		#= 5
+
+Integer.stringify ->	# bad example
+	if octal
+		self.toString 'octal'
+	else
+		self.toString
+		
+x -> 100.stringify				#= "100"
+y -> 100.stringify octal:true	#= "124"
+
+
+###
+# SAMPLE
+###
+					
+							# -- OBJECT STACK --											-- LOCALS --
+sum ->						# Function Step(text: "params.1 + params.2"...)					sum
+	params.1 + params.2       
+	                          
+fraction ->					# Function, Function Step(text: "percent*100"...)				sum, fraction
+	p: Float percent
+	p/100           
+	                          
+a: 5						# Function, Function, Integer 5									sum, fraction, a
+b: 10						# Function, Function, 5, 10										sum, fraction, a, b
+c: sum a, b					# Function, Function, 5, 10, 15                             	sum, fraction, a, b, c
+... ->							# (inside function) 5, 10
+...	$1 + $2						# 5, 10, 15
+a: null						# Function, Function, 5, 10, 15, Null							sum, fraction, b, c
+d: fraction percent:c		# Function, Function, 5, 10, 15, Null, 0.15						sum, fraction, b, c, d
+...	->							# (inside function) 15										percent
+... p: Float percent			# 15, Float 15.0											percent, p
+... p/100           			# 15, 15.0, 0.15                                            percent, p

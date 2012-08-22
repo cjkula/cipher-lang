@@ -1,0 +1,17 @@
+p = primegen
+do
+	q = primegen
+while p == q
+
+MEANS...
+
+p = nil
+thread { p = primegen }
+do
+	q = nil
+	thread { q = primegen }
+while {
+	until(p && q) {};
+	p == q
+}
+

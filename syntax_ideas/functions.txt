@@ -1,0 +1,40 @@
+# hash rocket and colon are synonymous and replace the assignment single equals sign which is used, instead, for comparison
+# double equals sign has no native meaning
+
+# functional declaration signified by a trailing colon or equals sign with function contents indented
+# there is no argument list in a function declaration, instead the function refers to named arguments
+# or to the ordinal list of arguments with $1, $2, etc. Appearing as local variable in the function
+# scope. Missing arguments return null.
+
+# null and all objects have an "||" method to be able to respond to missing data.
+
+@ =>						# define the @ function
+	validate $1.numeric?	# validate arguments -- also a way to document expectations. Failure raises an error.
+	self + $1
+	
+x: 5 @ 6	# x = 11
+	
+##
+
+power:
+	base ||: $1								# handle either named or ordinal arguments
+	power ||: $2 
+	validate base.numeric?, power.numeric?	# validate takes a value list
+	base ^^ exponent	# last expression evaluated is returned
+	
+x: power base: 10, exponent: 2
+# OR
+x => power 10, 2
+
+# OR 
+
+Integer.power:
+	validate $1.numeric?, $1 >= 0
+	value ^^ $1
+
+##
+
+if x = y
+	party_time
+	
+while x = 3

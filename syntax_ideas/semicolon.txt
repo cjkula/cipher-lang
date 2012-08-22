@@ -1,0 +1,19 @@
+# semicolon mostly equal a carriage return
+
+# can be used to inline two-dimensional lists
+
+x ::: 1, 2, 3; 4, 5, 6
+y :::
+	1, 2, 3
+	4, 5, 6
+...	
+x = y
+#= true
+	
+# can be used to assign in two-dimensions
+
+x ->
+	1, 2
+	3, 4
+a, b; c, d ::: x
+

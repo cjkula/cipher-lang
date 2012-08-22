@@ -1,0 +1,43 @@
+QUESTIONS:
+
+What happens when one appends something to a null?
+> Depends on method.
+
+Can one have null in a list?
+> No.
+
+
+
+a.delete		// clears context variable
+a << 1			// a=1
+a << 2			// a=Row(1,2)
+a[1].delete		// a=2
+a:: 1,null,3	// a=Row(1,3)
+a:: 1,,,4		// SYNTAX ERROR -- but would mean a=Row(1,4)
+
+b::: 1			// b=1 ... it would be a row, but there's no dimensionality
+b << 2			// b=Row(1,2)
+
+b::: 1			// b=1
+b <<< 2			// b=Table(1,2)
+
+a.delete
+a.length		//= 0 (?)
+
+3 - 3 + 'bob'	//= 'bob'		// CRAAAAZY!
+
+		// How does this get implemented?
+		// perhaps the String class includes a null.+(self) definition???
+		// OR
+		// there is a sequence of receiver classes of null, i.e., integer, then float, then string, etc.
+		// each class defines what null means to IT, in its own terms. A null constructor.
+		// If the class exposes the called method, it is called on the constructor with the arguments.
+		// If the result is null, then the null singleton class continues up the chain.
+		
+(3 - 3) * 5
+	
+
+THE PROBLEM WITH COLLAPSING ARRAYS WHEN VALUES ARE NULL IS ***POSITIONAL***.
+HAVING A NULL VALUE IN A COLUMN CAN MEAN: NO NEW INFORMATION HERE.
+IF ALL COLUMN/FIELDS WERE FULLY QUALIFIED BY NAME, THIS WOULDN'T BE AN ISSUE.
+

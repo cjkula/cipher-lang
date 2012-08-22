@@ -1,0 +1,31 @@
+# the comma is the same as a newline? Sort of.
+
+x ->			# function
+	1
+	2
+	3
+x ->			# function
+	1, 2, 3
+# OR...	
+x -> 1, 2, 3	# not a function
+	
+# = List(1, 2, 3) (both are the same)
+
+# HOWEVER
+
+y ->
+	a
+	b
+	c
+	
+y 				#= List nil, nil, nil 	... because a, b & c have not been declared in this function
+y a:1, b:2, c:3 #= List 1, 2, 3			... because these locals were passed as parameters
+
+z: 1, 2, 3,		# list continuation
+   4, 5, 6		# any (or no) indentation is acceptable, as long as it's not less indented
+z				#= List 1, 2, 3, 4, 5, 6
+
+a:
+	1, 2, 3
+	4, 5, 6
+a	#= List (List 1, 2, 3), (List 4, 5, 6)

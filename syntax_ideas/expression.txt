@@ -1,0 +1,63 @@
+# Expression operator
+
+->
+
+incr -> Integer($1) + 1
+
+# same as
+
+incr ->
+	Integer($1) + 1
+	
+++: incr		# copies expression
+++ -> incr		# references incr, i.e. will update if definition of incr changes
+
+###
+
+f1 -> 
+	if !test
+		1
+	2
+	3
+	
+x : f1					#= 1
+x, y :: f1				#= 1, 2
+x, y :: f1 test:true	#= 2, 3
+
+
+f2 ->
+	1
+	a, b :: f1
+	
+# same as
+f2 ->
+	1
+	f1
+		a:$1, b:$2
+
+x, y, z :: f			#= 1, (1,2), null
+
+f3 ->
+	1
+	return 5			# return initiates a new List? or just terminates the function? 
+	
+x, y :: f3				#= 5, null
+
+f5 -> 1
+x, y :: f5				#= 1, null
+
+# no need for inline expression execution. Instead:
+x, y ::
+	1, 2
+
+f6 -> 1, 2
+x, y :: f6				#= 1, 2
+
+f4 ->
+	1, 2
+	3, 4
+x, y :: f4				#= (1,2), (3,4)
+
+
+
+

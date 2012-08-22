@@ -1,0 +1,45 @@
+METHOD CALLS
+
+- An object receives a method call.
+- Method is a function.
+- The executing method can take an argument script block and a contained script block.
+- The argument script block is evaluated before the method call and can be referenced by '$' or 'param'.
+- The contained script block is evaluated inside the method by use of '$$' or 'yield'.
+- The method cannot selectively execute parts of the contained block, however the contained block
+  can itself receive an argument block and/or a contained block:
+
+	meth ->
+	  $$ x: $  // pass an argument to the contained block
+		x +: 1 // pass a contained block to the contained block
+		
+	meth 1		// function invocation			
+	  puts x	// >> 1  (this block is called with the $$ symbol above)
+	  yield		// it, in turn executes its contained block. increments x
+	  puts x 	// >> 2
+	  			// return <block [1,2,2]{x:2}>
+
+- The method call begins a new block evaluation.
+- Within the method, the ongoing block evaluation is accessible through underscore '_' or 'current_block'
+- Indented blocks create a new block evaluation, which is accessible through '_' or 'current_block'.
+- The invoking block evaluation can be accessed through '_.parent' or 'current_block.parent'.
+- note: 'parent' (unqualified) would be a local variable, equivalent to _['parent'] or _[:parent].
+- Enclosed blocks have access to parent context locals, changes to which are 'folded in' to 
+  the parent at end of block execution.
+- The object is 'self'; its instance methods through 'self.method' or just 'method'. Instance variables
+  as in: '@var'
+
+
+EVALUATE
+'Object#evaluate' is a method call that takes a 'script' parameter, or the first argument in the passed param block.
+It does not accept a contained block. It creates a new root context.
+
+RUNNING A SCRIPT FROM RUBY
+- [create a process] %% process = Cipher::Process.new %%
+- [call with script] %% process.evaluate(script) %%
+- evaluate returns a block evaluation object
+
+
+
+
+
+

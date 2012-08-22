@@ -1,0 +1,33 @@
+String.match ->
+	...
+	
+
+String.parse ->
+	self.match /^\s*(\w*)(.*)/
+		token: first
+		remaining: second
+
+
+
+	
+token, null = 'Integer 5'.parse
+	
+
+
+x ->
+	
+	
+x * x
+	
+	
+enroll first:$1.titlecase, middle:$2.titlecase, last:$3.titlecase ->
+	'bob', 'm', 'sayer'
+	'philis', , 'diller'
+	
+	
+lines: 5.times a:0
+	a +: 1
+	b: a+1
+	
+	
+	

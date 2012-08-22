@@ -1,0 +1,19 @@
+It's the question of null... Can null be a valid row element?
+If so, then does EVERYTHING move around inside a row/table/cube?
+
+a: null		// or undef(a)... a={}
+a << 1		// a={1}
+a << 2		// a={2}
+a <<< 3		// a={{},2;3}
+
+if a is an object, say:
+
+a = 'hello'
+
+then:
+
+a.rows[1] = a
+a.columns[1] = a
+a.dim(3)[1] = a
+a.dim(0)[1] = 'h'
+a.dim(-1)[1] = 0	// most significant bit

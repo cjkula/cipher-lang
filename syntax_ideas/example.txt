@@ -1,0 +1,40 @@
+def key_gen bits
+	p = prime_gen bits
+	do
+		q = prime_gen bits
+	while eq p, q
+	if lt p, q
+		p, q = q, p
+	p1 = sub p, 1
+	q1 = sub q, 1
+	phi = mult p1, q1
+	e = big_int 65537
+	d = mod_inverse e, phi
+	return p*q, e, d
+
+def prime_gen bits
+	...
+	
+	
+###
+
+Integer.key_gen =
+	thread
+		p = bits.prime_gen
+	q = bits.prime_gen
+	join
+	do
+		q = bits.prime_gen
+	while p == q
+	if p < q
+		p, q = q, p
+	p1 = p - 1
+	q1 = q - 1
+	phi = p1 * q1
+	e = BigInt 65537
+	d = e.mod_inverse phi
+	base = p*q
+	return base, e, d
+
+Integer.prime_gen =
+	...

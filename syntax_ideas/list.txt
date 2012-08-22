@@ -1,0 +1,40 @@
+# The "List" construct is used for program line execution, hashes, and arrays
+
+# this is a list of executable lines of code
+f ->
+	validate x.is_numeric?
+	if x < 0
+		x: -x
+	x.square_root / 2
+	
+f 			#= validation error (x=null)
+f x:4		#= {}[true, false, 1]
+f x:-100 	#= {x:100}[true, true, 100, 5]
+
+result: f x:64 # value is pulled from the tail of the list, i.e. 4
+	
+# this is a list of values
+
+sunglasses: false
+
+stuff ->
+	sunglasses: sunglasses
+	wallet: true
+	keys: true
+	phone: false
+	
+stuff 					#= {sunglasses: false, wallet: true ...}[false, true, true, false]
+stuff sunglasses:true	#= {sunglasses: true, ...}[true, true, true, false]
+	
+	
+# in BOTH of cases, the actual values are not calculated until the structure is referenced. 
+# They retain the context of their creation.
+
+# In the first instance, the routine is interested 
+# in the value of x, which may have been defined already in the context in which the function 
+# was defined, or could be passed in as a named argument, or could turn out to be undefined.
+
+# The second example shows values being rendered differently depending on whether an
+# argument list is passed to the List object when being read.
+
+	

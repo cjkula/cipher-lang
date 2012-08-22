@@ -1,0 +1,17 @@
+
+
+add ->
+	$1 + $2
+	
+proxy: 'www.proxy.com'
+port: 1234
+
+Socket.start *
+
+
+hypotenuse ->
+	sq_opp -> x * x
+	sq_adj -> y * y
+	sum $
+	sqrt $
+	

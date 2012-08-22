@@ -1,0 +1,2 @@
+module Cipher; end                                                              # establish namespace
+Dir.glob("#{File.dirname(__FILE__)}/cipher/*.rb").each { |file| require file }  # load contained classes

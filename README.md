@@ -1,0 +1,1 @@
+Cross-platform, open-source language for the purpose of consistently and dependably implementing cryptographic algorithms.

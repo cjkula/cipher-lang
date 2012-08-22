@@ -1,0 +1,30 @@
+# pipe-delimited data
+# like commas generating auto-trimmed strings
+
+| x | x |   |
+| o | x | o |
+| o | o | x |
+		
+
+# use escape character to insert pipe literal
+	
+	blogs :: | This Is It | Turtle News\|Current Events | SOS |
+	
+# Single and double quotes are permissible
+
+	quotes :: | "To be, or not to be..." | 'Cogito ergo sum?' |
+	
+	
+	
+	
+results ::: process_records \												// line continuation character
+		# id: $.row | first | last  | city     # balance: Currency($) |
+		|   		| Bob   | Smith | San Jose |   42.30			  |
+		|   		| Sam   | Jones | Milpitas | 1000.01			  |
+
+
+results ::: process_records
+		# id    # first  # last  # city     # balance    #
+		# .row  #        #       #          # Currency $ #
+		|       | Bob    | Smith | San Jose |   42.30	 |
+		|       | Sam    | Jones | Milpitas | 1000.01    |

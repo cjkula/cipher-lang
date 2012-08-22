@@ -1,0 +1,26 @@
+class Cipher.Context
+	
+	constructor: ->
+		@_locals = {}
+
+	@literalMatcher: -> Cipher.Literal.matcher()
+	
+	parseLiteral: (string) ->
+		rx = new RegExp "^(\\s*(#{Context.literalMatcher()}))"
+		match = rx.exec string
+		if match
+			remain = string.substring(match[0].length)
+			remain = null if remain && remain.trim().length == 0
+			[match[0].trim(), remain]
+		else
+			[null, string]
+
+	locals: ->
+		return @_locals
+	
+	assign: (key, value) ->
+		@_locals[key] = value
+		
+	retrieve: (key) ->
+		return @_locals[key]
+

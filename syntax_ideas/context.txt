@@ -1,0 +1,17 @@
+// execution occurs in a context
+// current context is accessible through 'self'
+// rows of self accumulate in []
+
+
+PROGRAM					SELF[]
+
+a: 5 + 5			 	10
+b: self[1] * 2			10; 20
+square ->				10; 20; Function(...)
+	$ * $
+nums :::				10; 20; Function(...); 5; 8; 3
+	5
+	8
+	3
+square nums[1]			25
+

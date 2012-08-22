@@ -1,0 +1,15 @@
+# VALUE LISTS
+
+a, b, c			# local variables grouped into a list. If any of these are not declared, will evaluate as null.
+a, b, c: 1		# c is assigned the value 1. Implicitly declared if necessary.
+1, 2, 3			# list of literals
+'a', "b", -0.5	# list of literals
+a, b, c: null => 1, 2, 3	# list of local variables assigned values
+							# note that order of ops is colon (:), comma (,), rocket (=>)
+a: first, b: last => first: 1, last: 2 	# value list constructed and then referenced
+a: first, b => first: 1, 2				# one can mix and match (not sure why, though). same result
+1, 2, 3 => 4, 5, 6						# ERROR: don't know how to assign to a literal
+a, b, 3 => 1, 2							# still an error. It will attempt assigning null to 3.
+a, b => 1, 2, 3							# this is fine?? comma 3 spills over to add to the list. NOT a list of lists. Always flattened.
+
+

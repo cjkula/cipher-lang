@@ -1,0 +1,90 @@
+Blocks return a value: type of "Block"! (How to distinguish between evaluating and referencing a block of code? Or, more to the point(er), how to distinguish between an evaluated and an unevaluated block object?)
+
+Thinking through 
+
+
+                            my_sequence.array     my_sequence.hash             for.array              for.hash
+my_sequence ->                                                                 
+  x: 0                      [0]                   x:0                          
+  seq: for i in 1..10       .                     .                            
+	(i * i) + 1             .                     .                            [2]                     i:1
+	...repeats...                                                                                        
+	(i * i) + 1             .                     .                            [2;5]                   i:2
+	(i * i) + 1             .                     .                            [2;5;10]                i:3
+	...                                                                                                
+	(i * i) + 1             .                     .                            [2;5;10...;101]         i:10
+							[0;2;5;10...;101]	  x:0,i:10,seq:[2;...10/i:10]  
+  return seq
+
+s ::: my_sequence			proc.array=[Function;2;5...10]	      proc.hash=[my_sequence:Function,i:10,s:[2;..10/i:10]]
+first: s					proc.array=[Function;2;5...10,2]	  proc.hash=[my_sequence:Function,i:10,s:[2;..10/i:10],first:2]
+						
+#######################################
+				
+factorial ->
+  validate $
+  r: 1
+  for i in 1..(:$)
+	r *: i
+  return result: r
+
+x: factorial 3
+                            factorial[]    factorial{}    for[]       for{}        return
+  validate $, :$ > 0		[True]		   
+  r: 1                      [True,1]       r:1
+  for i in 2..(:$)                                        
+  	r *: i                                                [2]         i:2,r:2
+  	r *: i                                                [2,6]       i:3,r:6
+							[True,1,2,6]   i:3,r:6                                 
+  return result: r                                                                 [6]{result:6}
+
+
+#######################################
+
+The way to pass around an unevaluated block is to declare a function. Functions cannot execute portions of passed code blocks, but, of course, they can iterate over the evaluated block.
+
+#######################################
+
+One can easily wrap a function with a new name:
+
+wrapper_function ->
+	original_function $ // references the argument list
+		$$				// references the passed block, if any
+		
+#######################################
+
+Underscore represents the current context block (Not exactly the same as the current context, since the sequence
+begins with a method call, but the context will likely have locals set before the method block starts. The block
+will accumulate sequence lines from the beginning of the call, and any variables set, but will also have access
+to previously existing locals. To what extent the rendered sequence is rolled up back into the object after method 
+execution is an open question.)
+
+reference the current context block elements with _[key]. Integer keys reference the sequence; token (alphanumeric and 
+symbolic) keys reference the locals hash.
+
+a: 1
+b: _[1]+1		// b=2
+c: _[2]+1		// c=3
+d: _[: a]+1		// what 'it' would understand as a, i.e. d=1+1=2			<-  have to think about this one...
+e: _[d]			// what 'I' understand as d, which is 2, therefore e=_[2]=2
+
+Single dollar sign represents a function's argument block:
+
+inv ->
+	1/$[1]
+	
+Alternatively, use the colon to match the first argument (or multiple arguments)
+
+square ->
+	x: $
+	return product: x * x
+		
+
+
+
+
+
+
+
+
+	
